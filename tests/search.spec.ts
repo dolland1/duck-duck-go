@@ -8,16 +8,17 @@ async function getBackgroundColour(element: Locator): Promise<string> {
 
 test('search bar visible and active', async ({ page }) => {
   await page.goto('https://duckduckgo.com/');
-  const searchBar = page.locator('#searchbox_homepage');
+  const searchBar: Locator = page.locator('#searchbox_homepage');
   await expect(searchBar).toBeVisible();
   await expect(searchBar).toBeEnabled();
 })
 
 test('set to dark mode', async ({ page }) => {
   await page.goto('https://duckduckgo.com/settings#appearance');
-  const backgroundColourDefault: string = await getBackgroundColour(page.locator('body'));
+  const body: Locator = page.locator('body');
+  const backgroundColourDefault: string = await getBackgroundColour(body);
   expect(backgroundColourDefault).toEqual('rgb(255, 255, 255)');
   await page.getByText('Dark').click();
-  const backgroundColourDark: string = await getBackgroundColour(page.locator('body'));
+  const backgroundColourDark: string = await getBackgroundColour(body);
   expect(backgroundColourDark).toEqual('rgb(28, 28, 28)');
 })
